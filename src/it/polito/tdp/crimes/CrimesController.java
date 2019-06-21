@@ -26,7 +26,7 @@ public class CrimesController {
     private URL location;
 
     @FXML // fx:id="boxAnno"
-    private ComboBox<?> boxAnno; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
     private ComboBox<?> boxMese; // Value injected by FXMLLoader
@@ -48,12 +48,28 @@ public class CrimesController {
 
     @FXML
     void doCreaReteCittadina(ActionEvent event) {
+    	Integer anno = boxAnno.getValue();
     	
+    	if(anno==null) {
+    		txtResult.appendText("Devi selezionare un anno\n");
+    		return ;
+    	}
+    	
+    	model.getGrafo(anno).toString();
+    	
+    	txtResult.setText(model.getGrafo(anno).toString());
     }
 
     @FXML
     void doSimula(ActionEvent event) {
 
+    }
+    
+    public void setModel(Model m) {
+    	this.model = m ;
+    	
+    	boxAnno.getItems().clear();
+    	boxAnno.getItems().addAll(model.getAnno()) ;
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -68,7 +84,5 @@ public class CrimesController {
 
     }
     
-    public void setModel(Model model) {
-    	this.model = model;
-    }
+  
 }
