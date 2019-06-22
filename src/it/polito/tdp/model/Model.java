@@ -76,14 +76,15 @@ public class Model {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		this.getGrafo(anno);
+		this.grafo = this.getGrafo(anno);
 		
 		for (District d : this.grafo.vertexSet()) {
 			List<DefaultWeightedEdge> edges = new ArrayList<DefaultWeightedEdge>(this.grafo.edgesOf(d));
 			Collections.sort(edges, new edgecomp(this.grafo));
+			sb.append("Distances from district " + d.getId().toString() +" \n");
 			for (DefaultWeightedEdge e : edges) {
-				if (!this.grafo.getEdgeSource(e).equals(d) && !this.grafo.getEdgeTarget(e).equals(d)) {
-					sb.append(d.getId().toString() +" "+ this.grafo.getEdgeWeight(e) + "\n");
+				if (this.grafo.getEdgeSource(e).equals(d)) {
+					sb.append(this.grafo.getEdgeTarget(e).getId() +" "+ this.grafo.getEdgeWeight(e) + "\n");
 				}
 			}
 		}
