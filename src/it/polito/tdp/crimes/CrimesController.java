@@ -55,9 +55,9 @@ public class CrimesController {
     		return ;
     	}
     	
-    	model.getGrafo(anno).toString();
     	
-    	txtResult.setText(model.getGrafo(anno).toString());
+    	
+    	txtResult.setText(model.creaRete(anno));
     }
 
     @FXML
