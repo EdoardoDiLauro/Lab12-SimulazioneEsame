@@ -1,5 +1,6 @@
 package it.polito.tdp.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class Model {
 	
 	Graph<District,DefaultWeightedEdge> grafo = new WeightedMultigraph<District,DefaultWeightedEdge>(DefaultWeightedEdge.class);
 	Map<Integer, District> districts = new HashMap<>();
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
 	
 	EventsDao dao = new EventsDao();
 	
@@ -57,8 +59,8 @@ public class Model {
 	public Graph<District,DefaultWeightedEdge> getGrafo(Integer anno){
 		
 		Map<Integer, District> distretti = this.getDistretti(anno);
-		
-		
+		List<District> listad = new ArrayList<District>(distretti.values());
+		Graphs.addAllVertices(this.grafo, listad);
 		
 		for (Map.Entry<Integer, District> d1 : distretti.entrySet()) {
 			for (Map.Entry<Integer, District> d2 : distretti.entrySet()) {
@@ -84,7 +86,7 @@ public class Model {
 			sb.append("Distances from district " + d.getId().toString() +" \n");
 			for (DefaultWeightedEdge e : edges) {
 				if (this.grafo.getEdgeSource(e).equals(d)) {
-					sb.append(this.grafo.getEdgeTarget(e).getId() +" "+ this.grafo.getEdgeWeight(e) + "\n");
+					sb.append(this.grafo.getEdgeTarget(e).getId() +" "+ df2.format(this.grafo.getEdgeWeight(e)) + "\n");
 				}
 			}
 		}
