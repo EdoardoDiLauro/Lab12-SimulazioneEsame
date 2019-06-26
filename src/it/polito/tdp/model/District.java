@@ -44,7 +44,20 @@ public class District {
 	double centerLat;
 	double centerLng;
 	Integer id;
+	double km;
 	
+	public double getKm() {
+		return km;
+	}
+
+
+
+	public void setKm(double km) {
+		this.km = km;
+	}
+
+
+
 	public double getCenterLat() {
 		return centerLat;
 	}

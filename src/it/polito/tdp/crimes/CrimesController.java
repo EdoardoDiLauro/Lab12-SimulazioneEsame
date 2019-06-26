@@ -29,10 +29,10 @@ public class CrimesController {
     private ComboBox<Integer> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
-    private ComboBox<?> boxMese; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxGiorno"
-    private ComboBox<?> boxGiorno; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxGiorno; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnCreaReteCittadina"
     private Button btnCreaReteCittadina; // Value injected by FXMLLoader
@@ -57,7 +57,7 @@ public class CrimesController {
     	
     	
     	
-    	txtResult.setText(model.creaRete(anno));
+    	txtResult.setText(model.getKM(anno));
     }
 
     @FXML
@@ -70,6 +70,12 @@ public class CrimesController {
     	
     	boxAnno.getItems().clear();
     	boxAnno.getItems().addAll(model.getAnno()) ;
+    	
+    	boxMese.getItems().clear();
+    	boxMese.getItems().addAll(model.getMese());
+    	
+    	boxGiorno.getItems().clear();
+    	boxGiorno.getItems().addAll(model.getGiorno());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

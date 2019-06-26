@@ -11,6 +11,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 
+import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
 
@@ -35,6 +36,30 @@ public class Model {
 		
 		return result;
 	}
+	
+public List<Integer> getMese() {
+		
+		List<Integer> result = new ArrayList<Integer>();
+		
+		for (Event e : dao.listAllEvents()){
+			Integer anno = e.getReported_date().getMonthValue();
+			if (!result.contains(anno)) result.add(anno);
+		}
+		
+		return result;
+	}
+
+public List<Integer> getGiorno() {
+	
+	List<Integer> result = new ArrayList<Integer>();
+	
+	for (Event e : dao.listAllEvents()){
+		Integer anno = e.getReported_date().getDayOfMonth();
+		if (!result.contains(anno)) result.add(anno);
+	}
+	
+	return result;
+}
 	
 	public Map<Integer, District> getDistretti(Integer anno){
 		
@@ -97,5 +122,26 @@ public class Model {
 		
 	}
 	
-	
+public String getKM(Integer anno) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Distanze percorse nell'anno " + anno + " dai Distretti:\n");
+		
+		Map<Integer, District> distretti = this.getDistretti(anno);
+		List<District> listad = new ArrayList<District>(distretti.values());
+		
+		for (District d : listad) {
+			List<Event> criminidis = dao.listAllEventsForDistrict(d.getId().intValue());
+			double km = 0;
+			for (Event e : criminidis) {
+				double dis =  LatLngTool.distance(d.getCenter(), new LatLng(e.getGeo_lat(), e.getGeo_lon()), LengthUnit.KILOMETER);
+				km = km + dis;
+			}
+			d.setKm(km);
+			sb.append(d.getId().toString() +" "+ df2.format(d.getKm()) + "\n");	
+		}
+		
+		return sb.toString();
+	}
 }
